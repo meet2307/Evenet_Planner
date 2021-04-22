@@ -1,6 +1,6 @@
-# login_screen
+# event_manager_app
 
-A new Flutter application.
+Event Manager Application
 
 ## Getting Started
 
