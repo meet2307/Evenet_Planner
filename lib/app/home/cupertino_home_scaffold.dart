@@ -1,6 +1,7 @@
+import 'package:event_manager_app/app/home/tab_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/app/home/tab_item.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 class CupertinoHomeScaffold extends StatelessWidget {
   const CupertinoHomeScaffold({
@@ -18,6 +19,34 @@ class CupertinoHomeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return BottomNavyBar(
+    //   selectedIndex: currentTab.index,
+    //   showElevation: true,
+    //   onItemSelected: (index) => onSelectTab(TabItem.values[index]),
+    //     //_pageController.animateToPage(index,duration: Duration(milliseconds: 300), curve: Curves.ease);
+    //   items: [
+    //     BottomNavyBarItem(
+    //       icon: Icon(Icons.apps),
+    //       title: Text('Home'),
+    //       activeColor: Colors.red,
+    //     ),
+    //     BottomNavyBarItem(
+    //         icon: Icon(Icons.people),
+    //         title: Text('Users'),
+    //         activeColor: Colors.purpleAccent
+    //     ),
+    //     BottomNavyBarItem(
+    //         icon: Icon(Icons.message),
+    //         title: Text('Messages'),
+    //         activeColor: Colors.pink
+    //     ),
+    //     BottomNavyBarItem(
+    //         icon: Icon(Icons.settings),
+    //         title: Text('Settings'),
+    //         activeColor: Colors.blue
+    //     ),
+    //   ],
+    // );
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: [
@@ -40,7 +69,7 @@ class CupertinoHomeScaffold extends StatelessWidget {
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
     final itemData = TabItemData.allTabs[tabItem];
-    final color = currentTab == tabItem ? Colors.indigo : Colors.grey;
+    var color = currentTab == tabItem ? itemData.color : Colors.grey;
     return BottomNavigationBarItem(
       icon: Icon(
         itemData.icon,

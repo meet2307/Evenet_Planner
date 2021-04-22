@@ -1,10 +1,10 @@
+import 'package:event_manager_app/app/home/models/event.dart';
+import 'package:event_manager_app/app/home/models/task.dart';
+import 'package:event_manager_app/components/show_alert_dialog.dart';
+import 'package:event_manager_app/components/show_exception_alert_dialog.dart';
+import 'package:event_manager_app/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/app/home/models/event.dart';
-import 'package:login_screen/app/home/models/task.dart';
-import 'package:login_screen/components/show_alert_dialog.dart';
-import 'package:login_screen/components/show_exception_alert_dialog.dart';
-import 'package:login_screen/services/database.dart';
 
 class EditTaskPage extends StatefulWidget {
   const EditTaskPage(
@@ -70,7 +70,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
           showAlertDialog(
             context,
             title: 'Name already used',
-            content: 'Please choose a different job name',
+            content: 'Please choose a different task name',
             defaultActionText: 'OK',
           );
         } else {
@@ -102,11 +102,6 @@ class _EditTaskPageState extends State<EditTaskPage> {
         elevation: 2.0,
         title: Text(widget.task == null ? 'New Task' : 'Edit Task'),
         actions: <Widget>[
-          // IconButton(
-          //   icon: const Icon(Icons.contact_phone_outlined),
-          //   tooltip: 'phone',
-          //   onPressed: (){},
-          // ),
           IconButton(
             icon: const Icon(Icons.done_rounded),
             tooltip: 'Save',
@@ -144,6 +139,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
   }
 
   List<Widget> _buildFormChildren() {
+    Size size = MediaQuery.of(context).size;
     return [
       TextFormField(
         decoration: InputDecoration(labelText: 'Task name'),
@@ -162,36 +158,31 @@ class _EditTaskPageState extends State<EditTaskPage> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            _buildCategoryType('One'),
+            _buildCategoryType('Accessories'),
             SizedBox(width: 3),
-            _buildCategoryType('Two'),
+            _buildCategoryType('Accommodation'),
             SizedBox(width: 3),
-            _buildCategoryType('Three'),
+            _buildCategoryType('Ceremony'),
             SizedBox(width: 3),
-            _buildCategoryType('Four'),
+            _buildCategoryType('Flower & Decor'),
             SizedBox(width: 3),
-            _buildCategoryType('Five'),
+            _buildCategoryType('Health & Beauty'),
+            SizedBox(width: 3),
+            _buildCategoryType('Photo & Video'),
+            SizedBox(width: 3),
+            _buildCategoryType('Reception'),
+            SizedBox(width: 3),
+            _buildCategoryType('Transportation'),
+            SizedBox(width: 3),
+            _buildCategoryType('Jewelry'),
           ],
         ),
       ),
-      // TextFormField(
-      //   decoration: InputDecoration(labelText: 'Category'),
-      //   initialValue: _category,
-      //   validator: (value) =>
-      //       value.isNotEmpty ? null : 'Category can\'t be empty',
-      //   onSaved: (value) => _category = value,
-      // ),
-      // TextFormField(
-      //   decoration: InputDecoration(labelText: 'Task Status'),
-      //   initialValue: _taskstatus,
-      //   validator: (value) => value.isNotEmpty ? null : 'Task Status can\'t be empty',
-      //   onSaved: (value) => _taskstatus = value,
-      // ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Note'),
         initialValue: _note,
         validator: (value) =>
-            value.isNotEmpty ? null : 'Task Status can\'t be empty',
+            value.isNotEmpty ? null : null,
         onSaved: (value) => _note = value,
       ),
       SizedBox(
@@ -219,10 +210,11 @@ class _EditTaskPageState extends State<EditTaskPage> {
   }
 
   Widget _buildTaskStatusType(String title) {
+    Size size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
-        height: 40,
-        width: 117,
+        height: double.infinity,
+        width: size.width *0.272,
         decoration: BoxDecoration(
           color: _taskstatus == title
               ? Colors.teal.shade500
@@ -248,10 +240,11 @@ class _EditTaskPageState extends State<EditTaskPage> {
   }
 
   Widget _buildCategoryType(String category) {
+    Size size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
-        height: 40,
-        width: 100,
+        height: double.infinity,
+        width: 150,
         decoration: BoxDecoration(
           color: _category == category
               ? Colors.teal.shade500

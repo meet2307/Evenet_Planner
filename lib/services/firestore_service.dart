@@ -21,17 +21,59 @@ class FirestoreService {
   }
 
   Stream<List<T>> collectionStream<T>({
+    @required String order,
     @required String path,
     @required T Function(Map<String, dynamic> data, String documentId) builder,
   }) {
-    final reference = FirebaseFirestore.instance.collection(path);
-    final snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => snapshot.docs
-        .map(
-          (snapshot) => builder(snapshot.data(), snapshot.id),
-        )
-        .toList());
+    if(order=="ascending_name"){
+      final reference = FirebaseFirestore.instance.collection(path).orderBy('name', descending: false);
+      final snapshots = reference.snapshots();
+      return snapshots.map((snapshot) => snapshot.docs
+          .map(
+            (snapshot) => builder(snapshot.data(), snapshot.id),
+      )
+          .toList());
+    }
+    else if(order=="descending_name") {
+      final reference = FirebaseFirestore.instance.collection(path).orderBy(
+          'name', descending: true);
+      final snapshots = reference.snapshots();
+      return snapshots.map((snapshot) =>
+          snapshot.docs
+              .map(
+                (snapshot) => builder(snapshot.data(), snapshot.id),
+          )
+              .toList());
+    }
+    else{
+      final reference = FirebaseFirestore.instance.collection(path);
+      final snapshots = reference.snapshots();
+      return snapshots.map((snapshot) => snapshot.docs
+          .map(
+            (snapshot) => builder(snapshot.data(), snapshot.id),
+      )
+          .toList());
+    }
   }
+
+  Stream<List<T>> queryCollectionStream<T>({
+    @required String name,
+    @required String path,
+    @required T Function(Map<String, dynamic> data, String documentId) builder,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where('name', isEqualTo: name);
+    final snapshots = reference.snapshots();
+    return snapshots.map(
+      (snapshot) => snapshot.docs
+          .map(
+            (snapshot) => builder(snapshot.data(), snapshot.id),
+          )
+          .toList(),
+    );
+  }
+
   // Stream<List<T>> collectionStream<T>({
   //   @required String path,
   //   @required T Function(Map<String, dynamic> data, String documentId) builder,
@@ -63,5 +105,4 @@ class FirestoreService {
     final snapshots = reference.snapshots();
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
-
 }

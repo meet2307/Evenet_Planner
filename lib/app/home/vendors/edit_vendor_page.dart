@@ -1,23 +1,29 @@
+import 'package:event_manager_app/app/home/models/event.dart';
+import 'package:event_manager_app/app/home/models/vendors.dart';
+import 'package:event_manager_app/components/show_alert_dialog.dart';
+import 'package:event_manager_app/components/show_exception_alert_dialog.dart';
+import 'package:event_manager_app/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/app/home/models/event.dart';
-import 'package:login_screen/app/home/models/vendors.dart';
-import 'package:login_screen/components/show_alert_dialog.dart';
-import 'package:login_screen/components/show_exception_alert_dialog.dart';
-import 'package:login_screen/services/database.dart';
 
 
 class EditVendorPage extends StatefulWidget {
-  const EditVendorPage({Key key, @required this.database, @required this.event, this.vendor}) : super(key: key);
+  const EditVendorPage(
+      {Key key, @required this.database, @required this.event, this.vendor})
+      : super(key: key);
   final Database database;
   final Event event;
   final Vendor vendor;
 
   static Future<void> show(
-      {BuildContext context,  Database database, Event event, Vendor vendor}) async {
+      {BuildContext context,
+      Database database,
+      Event event,
+      Vendor vendor}) async {
     await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
-        builder: (context) => EditVendorPage(database: database, event: event, vendor: vendor),
+        builder: (context) =>
+            EditVendorPage(database: database, event: event, vendor: vendor),
         fullscreenDialog: true,
       ),
     );
@@ -38,7 +44,6 @@ class _EditVendorPageState extends State<EditVendorPage> {
   String _emailid;
   String _website;
   String _address;
-
 
   @override
   void initState() {
@@ -67,7 +72,8 @@ class _EditVendorPageState extends State<EditVendorPage> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
-        final vendors = await widget.database.vendorsStream(eventId: widget.event.id).first;
+        final vendors =
+            await widget.database.vendorsStream(eventId: widget.event.id).first;
         final allNames = vendors.map((vendor) => vendor.name).toList();
         if (widget.vendor != null) {
           allNames.remove(widget.vendor.name);
@@ -82,16 +88,15 @@ class _EditVendorPageState extends State<EditVendorPage> {
         } else {
           final id = widget.vendor?.id ?? documentIdFromCurrentDate();
           final vendor = Vendor(
-              id: id, 
-              name: _name, 
-              category: _category,
-              estimated_amount: _estimated_amount,
-              note: _note,
-              phone:_phone,
-              emailid: _emailid,
-              website: _website,
-              address:_address,
-
+            id: id,
+            name: _name,
+            category: _category,
+            estimated_amount: _estimated_amount,
+            note: _note,
+            phone: _phone,
+            emailid: _emailid,
+            website: _website,
+            address: _address,
           );
           await widget.database.setVendor(widget.event, vendor);
           Navigator.of(context).pop();
@@ -149,15 +154,19 @@ class _EditVendorPageState extends State<EditVendorPage> {
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: _buildFormChildren(),
+        children: List.unmodifiable(() sync* {
+          yield* _buildFormChildren();
+          // yield SizedBox(height: 20);
+          // yield* _buildFormChildren();
+        }()),
       ),
     );
   }
 
   List<Widget> _buildFormChildren() {
-    return [
+    List<Widget> list = [
       TextFormField(
-        decoration: InputDecoration(labelText: 'Task name'),
+        decoration: InputDecoration(labelText: 'Vendor name'),
         initialValue: _name,
         validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
         onSaved: (value) => _name = value,
@@ -173,32 +182,35 @@ class _EditVendorPageState extends State<EditVendorPage> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            _buildCategoryType('One'),
+            _buildCategoryType('Accessories'),
             SizedBox(width: 3),
-            _buildCategoryType('Two'),
+            _buildCategoryType('Accommodation'),
             SizedBox(width: 3),
-            _buildCategoryType('Three'),
+            _buildCategoryType('Ceremony'),
             SizedBox(width: 3),
-            _buildCategoryType('Four'),
+            _buildCategoryType('Flower & Decor'),
             SizedBox(width: 3),
-            _buildCategoryType('Five'),
+            _buildCategoryType('Health & Beauty'),
+            SizedBox(width: 3),
+            _buildCategoryType('Photo & Video'),
+            SizedBox(width: 3),
+            _buildCategoryType('Reception'),
+            SizedBox(width: 3),
+            _buildCategoryType('Transportation'),
+            SizedBox(width: 3),
+            _buildCategoryType('Jewelry'),
           ],
         ),
       ),
-      // TextFormField(
-      //   decoration: InputDecoration(labelText: 'Category'),
-      //   initialValue: _category,
-      //   validator: (value) => value.isNotEmpty ? null : 'Category can\'t be empty',
-      //   onSaved: (value) => _category = value,
-      // ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Note'),
         initialValue: _note,
-        validator: (value) => value.isNotEmpty ? null : 'Note Status can\'t be empty',
+        validator: (value) =>
+            value.isNotEmpty ? null : null,
         onSaved: (value) => _note = value,
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'Total Budget'),
+        decoration: InputDecoration(labelText: 'Budget'),
         initialValue: _estimated_amount != null ? '$_estimated_amount' : null,
         keyboardType: TextInputType.numberWithOptions(
           signed: false,
@@ -208,44 +220,50 @@ class _EditVendorPageState extends State<EditVendorPage> {
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Phone Number'),
+        keyboardType: TextInputType.phone,
         initialValue: _phone,
-        validator: (value) =>
-        value.isNotEmpty ? null : 'Phone Number can\'t be empty',
+        validator: (value) => value.isNotEmpty
+            ? value.length == 10
+            ? null
+            : 'Please Enter Valid Phone Number'
+            : 'Phone Number can\'t be empty',
         onSaved: (value) => _phone = value,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Email Id'),
+        keyboardType: TextInputType.emailAddress,
         initialValue: _emailid,
         validator: (value) =>
-        value.isNotEmpty ? null : 'Email Id can\'t be empty',
+            value.isNotEmpty ? null : 'Email Id can\'t be empty',
         onSaved: (value) => _emailid = value,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Web Site'),
+        keyboardType: TextInputType.url,
         initialValue: _website != null ? '$_website' : null,
         validator: (value) =>
-        value.isNotEmpty ? null : 'Web Site can\'t be empty',
+            value.isNotEmpty ? null : 'Web Site can\'t be empty',
         onSaved: (value) => _website = value ?? null,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Address'),
+        keyboardType: TextInputType.streetAddress,
         initialValue: _address,
         validator: (value) =>
-        value.isNotEmpty ? null : 'Address can\'t be empty',
+            value.isNotEmpty ? null : 'Address can\'t be empty',
         onSaved: (value) => _address = value,
       ),
     ];
+    return list;
   }
 
   Widget _buildCategoryType(String category) {
     return InkWell(
       child: Container(
         height: 40,
-        width: 100,
+        width: 150,
         decoration: BoxDecoration(
-          color: _category == category
-              ? Colors.teal.shade500
-              : Colors.black,
+          color: _category == category ? Colors.teal.shade500 : Colors.black,
           //borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(

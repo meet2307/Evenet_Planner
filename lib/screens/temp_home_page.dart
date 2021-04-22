@@ -1,10 +1,14 @@
+import 'package:event_manager_app/components/show_alert_dialog.dart';
+import 'package:event_manager_app/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/components/show_alert_dialog.dart';
-import 'package:login_screen/services/auth.dart';
 import 'package:provider/provider.dart';
 
-class TempHomePage extends StatelessWidget {
+class TempHomePage extends StatefulWidget {
+  @override
+  _TempHomePageState createState() => _TempHomePageState();
+}
 
+class _TempHomePageState extends State<TempHomePage> {
   Future<void> _signOut(BuildContext context) async {
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
@@ -45,6 +49,7 @@ class TempHomePage extends StatelessWidget {
           ),
         ],
       ),
+      body: Container(),
     );
   }
 }

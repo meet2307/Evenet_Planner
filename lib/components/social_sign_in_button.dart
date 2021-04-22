@@ -1,6 +1,5 @@
+import 'package:event_manager_app/components/custom_raised_button.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/components/custom_raised_button.dart';
-// import 'file:///D:/Study/Android%20Studio%20Projects/login_screen/lib/components/custom_raised_button.dart';
 
 class SocialSignInButton extends CustomRaisedButton {
   SocialSignInButton({

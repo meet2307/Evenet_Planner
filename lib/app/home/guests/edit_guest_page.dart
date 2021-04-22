@@ -1,10 +1,10 @@
+import 'package:event_manager_app/app/home/models/event.dart';
+import 'package:event_manager_app/app/home/models/guest.dart';
+import 'package:event_manager_app/components/show_alert_dialog.dart';
+import 'package:event_manager_app/components/show_exception_alert_dialog.dart';
+import 'package:event_manager_app/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/app/home/models/event.dart';
-import 'package:login_screen/app/home/models/guest.dart';
-import 'package:login_screen/components/show_alert_dialog.dart';
-import 'package:login_screen/components/show_exception_alert_dialog.dart';
-import 'package:login_screen/services/database.dart';
 
 class EditGuestPage extends StatefulWidget {
   const EditGuestPage(
@@ -82,7 +82,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
           showAlertDialog(
             context,
             title: 'Name already used',
-            content: 'Please choose a different job name',
+            content: 'Please choose a different guest name',
             defaultActionText: 'OK',
           );
         } else {
@@ -90,13 +90,13 @@ class _EditGuestPageState extends State<EditGuestPage> {
           final guest = Guest(
             id: id,
             name: _name,
-            gender:_gender,
+            gender: _gender,
             acb: _acb,
-            invitation:_invitation,
+            invitation: _invitation,
             note: _note,
-            phone:_phone,
+            phone: _phone,
             emailid: _emailid,
-            address:_address,
+            address: _address,
           );
           await widget.database.setGuest(widget.event, guest);
           Navigator.of(context).pop();
@@ -118,11 +118,11 @@ class _EditGuestPageState extends State<EditGuestPage> {
         elevation: 2.0,
         title: Text(widget.guest == null ? 'New Guest' : 'Edit Guest'),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.contact_phone_outlined),
-            tooltip: 'phone',
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.contact_phone_outlined),
+          //   tooltip: 'phone',
+          //   onPressed: () {},
+          // ),
           IconButton(
             icon: const Icon(Icons.done_rounded),
             tooltip: 'Save',
@@ -167,12 +167,6 @@ class _EditGuestPageState extends State<EditGuestPage> {
         validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
         onSaved: (value) => _name = value,
       ),
-      // TextFormField(
-      //   decoration: InputDecoration(labelText: 'Guest gender'),
-      //   initialValue: _gender,
-      //   validator: (value) => value.isNotEmpty ? null : 'Gender can\'t be empty',
-      //   onSaved: (value) => _gender = value,
-      // ),
       SizedBox(
         height: 15,
       ),
@@ -210,18 +204,6 @@ class _EditGuestPageState extends State<EditGuestPage> {
           ],
         ),
       ),
-      // TextFormField(
-      //   decoration: InputDecoration(labelText: 'Adult,Child,Baby'),
-      //   initialValue: _acb,
-      //   validator: (value) => value.isNotEmpty ? null : 'Choice can\'t be empty',
-      //   onSaved: (value) => _acb = value,
-      // ),
-      TextFormField(
-        decoration: InputDecoration(labelText: 'Note'),
-        initialValue: _note,
-        validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
-        onSaved: (value) => _note = value,
-      ),
       SizedBox(
         height: 15,
       ),
@@ -243,22 +225,26 @@ class _EditGuestPageState extends State<EditGuestPage> {
           ],
         ),
       ),
-      // TextFormField(
-      //   decoration: InputDecoration(labelText: 'Invitation Status'),
-      //   initialValue: _invitation,
-      //   validator: (value) =>
-      //       value.isNotEmpty ? null : 'Invitation Status can\'t be empty',
-      //   onSaved: (value) => _invitation = value,
-      // ),
+      TextFormField(
+        decoration: InputDecoration(labelText: 'Note'),
+        initialValue: _note,
+        validator: (value) => value.isNotEmpty ? null : null,
+        onSaved: (value) => _note = value,
+      ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Phone Number'),
+        keyboardType: TextInputType.phone,
         initialValue: _phone,
-        validator: (value) =>
-            value.isNotEmpty ? null : 'Phone Number can\'t be empty',
+        validator: (value) => value.isNotEmpty
+            ? value.length == 10
+                ? null
+                : 'Please Enter Valid Phone Number'
+            : 'Phone Number can\'t be empty',
         onSaved: (value) => _phone = value,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Email Id'),
+        keyboardType: TextInputType.emailAddress,
         initialValue: _emailid,
         validator: (value) =>
             value.isNotEmpty ? null : 'Email Id can\'t be empty',
@@ -266,6 +252,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Address'),
+        keyboardType: TextInputType.streetAddress,
         initialValue: _address,
         validator: (value) =>
             value.isNotEmpty ? null : 'Address can\'t be empty',
@@ -275,14 +262,13 @@ class _EditGuestPageState extends State<EditGuestPage> {
   }
 
   Widget _buildGenderType(String gender) {
+    Size size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
-        height: 40,
-        width: 90,
+        height: double.infinity,
+        width: size.width * 0.272,
         decoration: BoxDecoration(
-          color: _gender == gender
-              ? Colors.teal.shade500
-              : Colors.black,
+          color: _gender == gender ? Colors.teal.shade500 : Colors.black,
           //borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
@@ -302,15 +288,15 @@ class _EditGuestPageState extends State<EditGuestPage> {
       },
     );
   }
+
   Widget _buildACBType(String acb) {
+    Size size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
-        height: 40,
-        width: 113.5,
+        height: double.infinity,
+        width: size.width * 0.265,
         decoration: BoxDecoration(
-          color: _acb == acb
-              ? Colors.teal.shade500
-              : Colors.black,
+          color: _acb == acb ? Colors.teal.shade500 : Colors.black,
           //borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
@@ -330,15 +316,16 @@ class _EditGuestPageState extends State<EditGuestPage> {
       },
     );
   }
+
   Widget _buildInvitationType(String invitation) {
+    Size size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
-        height: 40,
-        width: 90,
+        height: double.infinity,
+        width: size.width * 0.229,
         decoration: BoxDecoration(
-          color: _invitation == invitation
-              ? Colors.teal.shade500
-              : Colors.black,
+          color:
+              _invitation == invitation ? Colors.teal.shade500 : Colors.black,
           //borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(

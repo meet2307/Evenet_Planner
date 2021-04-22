@@ -1,10 +1,11 @@
+import 'package:event_manager_app/app/home/models/budget.dart';
+import 'package:event_manager_app/app/home/models/event.dart';
+import 'package:event_manager_app/components/show_alert_dialog.dart';
+import 'package:event_manager_app/components/show_exception_alert_dialog.dart';
+import 'package:event_manager_app/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/app/home/models/budget.dart';
-import 'package:login_screen/app/home/models/event.dart';
-import 'package:login_screen/components/show_alert_dialog.dart';
-import 'package:login_screen/components/show_exception_alert_dialog.dart';
-import 'package:login_screen/services/database.dart';
+
 
 
 class EditBudgetPage extends StatefulWidget {
@@ -59,8 +60,8 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
-        final tasks = await widget.database.tasksStream(eventId: widget.event.id).first;
-        final allNames = tasks.map((task) => task.name).toList();
+        final budgets = await widget.database.budgetsStream(eventId: widget.event.id).first;
+        final allNames = budgets.map((budget) => budget.name).toList();
         if (widget.budget != null) {
           allNames.remove(widget.budget.name);
         }
@@ -68,7 +69,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
           showAlertDialog(
             context,
             title: 'Name already used',
-            content: 'Please choose a different job name',
+            content: 'Please choose a different budget name',
             defaultActionText: 'OK',
           );
         } else {
@@ -160,33 +161,36 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            _buildCategoryType('One'),
+            _buildCategoryType('Accessories'),
             SizedBox(width: 3),
-            _buildCategoryType('Two'),
+            _buildCategoryType('Accommodation'),
             SizedBox(width: 3),
-            _buildCategoryType('Three'),
+            _buildCategoryType('Ceremony'),
             SizedBox(width: 3),
-            _buildCategoryType('Four'),
+            _buildCategoryType('Flower & Decor'),
             SizedBox(width: 3),
-            _buildCategoryType('Five'),
+            _buildCategoryType('Health & Beauty'),
+            SizedBox(width: 3),
+            _buildCategoryType('Photo & Video'),
+            SizedBox(width: 3),
+            _buildCategoryType('Reception'),
+            SizedBox(width: 3),
+            _buildCategoryType('Transportation'),
+            SizedBox(width: 3),
+            _buildCategoryType('Jewelry'),
           ],
         ),
       ),
-      // TextFormField(
-      //   decoration: InputDecoration(labelText: 'Category'),
-      //   initialValue: _category,
-      //   validator: (value) => value.isNotEmpty ? null : 'Category can\'t be empty',
-      //   onSaved: (value) => _category = value,
-      // ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Note'),
         initialValue: _note,
-        validator: (value) => value.isNotEmpty ? null : 'Note Status can\'t be empty',
+        validator: (value) => value.isNotEmpty ? null : null,
         onSaved: (value) => _note = value,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Total Budget'),
         initialValue: _estimated_amount != null ? '$_estimated_amount' : null,
+        validator: (value) => value.isNotEmpty ? null : 'Budget can\'t be empty',
         keyboardType: TextInputType.numberWithOptions(
           signed: false,
           decimal: false,
@@ -200,7 +204,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
     return InkWell(
       child: Container(
         height: 40,
-        width: 100,
+        width: 150,
         decoration: BoxDecoration(
           color: _category == category
               ? Colors.teal.shade500

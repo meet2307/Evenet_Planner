@@ -1,8 +1,6 @@
+import 'package:event_manager_app/components/format.dart';
+import 'package:event_manager_app/components/input_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/components/format.dart';
-// import 'file:///D:/Study/Android%20Studio%20Projects/login_screen/lib/components/format.dart';
-import 'package:login_screen/components/input_dropdown.dart';
-
 class DateTimePicker extends StatelessWidget {
   const DateTimePicker({
     Key key,

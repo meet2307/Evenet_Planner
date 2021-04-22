@@ -1,12 +1,12 @@
+import 'package:event_manager_app/app/home/budget/budgets_page.dart';
+import 'package:event_manager_app/app/home/cupertino_home_scaffold.dart';
+import 'package:event_manager_app/app/home/guests/guests_page.dart';
+import 'package:event_manager_app/app/home/models/event.dart';
+import 'package:event_manager_app/app/home/tab_item.dart';
+import 'package:event_manager_app/app/home/tasks/tasks_page.dart';
+import 'package:event_manager_app/app/home/vendors/vendors_page.dart';
+import 'package:event_manager_app/services/database.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/app/home/budget/budgets_page.dart';
-import 'package:login_screen/app/home/cupertino_home_scaffold.dart';
-import 'package:login_screen/app/home/guests/guests_page.dart';
-import 'package:login_screen/app/home/models/event.dart';
-import 'package:login_screen/app/home/tab_item.dart';
-import 'package:login_screen/app/home/tasks/tasks_page.dart';
-import 'package:login_screen/app/home/vendors/vendors_page.dart';
-import 'package:login_screen/services/database.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
