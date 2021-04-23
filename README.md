@@ -1,3 +1,8 @@
+# event_manager_app
+
+Event Manager Application
+
+## Getting Started
 Hello folks,
 
 Hi, I am Meet Thakkar and this application is event manager software project that serves the functionality of an event manager. The system allow registered user login and new user are allowed to register on the application. The system helps in the management of events, users and the aspects related to them. The Application provides most of the basic functionality required for an event, then the system allows the user to select date and time of event, place and the necessary things. All the data will be store in Google Fire-base. This is a process of organizing a professional and focused event, for a particular target audience. It involves planning, budgeting, organizing and executing events such as wedding, musical concerts, corporate seminars, exhibitions, birthday celebrations, theme parties, etc.
@@ -16,13 +21,6 @@ c) Budget Manager
 
 d) Vendors Manager
 3 > User Info.
-# event_manager_app
-
-Event Manager Application
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 
