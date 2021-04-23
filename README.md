@@ -13,13 +13,14 @@ List of Modules in Application :
 
 2 > Events Screen
 
-a) Task Manager 
+  a) Task Manager 
 
-b) Guest Manager
+  b) Guest Manager
 
-c) Budget Manager
+  c) Budget Manager
 
-d) Vendors Manager
+  d) Vendors Manager
+  
 3 > User Info.
 
 A few resources to get you started if this is your first Flutter project:
