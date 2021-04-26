@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "381556433004",
+    "project_id": "event-manager-220b1",
+    "storage_bucket": "event-manager-220b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381556433004:android:56c986dcfab90047903849",
+        "android_client_info": {
+          "package_name": "com.mahir.event_manager_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381556433004-jr9tb13cpqcig7m4v4r0v1m6t0rq94ol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzyI_UGgFKAURFHIP_603lnoF1HN77yoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381556433004-jr9tb13cpqcig7m4v4r0v1m6t0rq94ol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
